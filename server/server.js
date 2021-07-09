@@ -21,4 +21,6 @@ app.get("/api/notes/:id", (req, res) => {
   res.send(note);
 });
 
+//^^^^^^THESE R THE API's^^^^^^^^^
+
 app.listen(PORT, console.log(`Server is running on ${PORT}`));
