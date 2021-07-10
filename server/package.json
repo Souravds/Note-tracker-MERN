@@ -4,7 +4,7 @@
   "description": "Note tracker app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Sourav das",
   "license": "ISC",

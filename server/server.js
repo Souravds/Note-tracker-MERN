@@ -1,10 +1,9 @@
 const express = require("express");
-const notes = require("./data/notes");
 const dotenv = require("dotenv");
+const notes = require("../client/src/data/notes");
 
 const app = express();
 
-//PORT from .env file
 dotenv.config();
 PORT = process.env.PORT || 4000;
 
@@ -12,7 +11,7 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
-app.get("/api/notes/", (req, res) => {
+app.get("/api/notes", (req, res) => {
   res.json(notes);
 });
 

@@ -5,7 +5,7 @@ const MainScreen = ({ title, children }) => {
   return (
     <div>
       <Container>
-        <Row>
+        <Row style={{ display: "block" }}>
           <div class="page">
             {title && (
               <>
