@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/Header/MainScreen";
 import { Link } from "react-router-dom";
-import notes from "../../data/notes";
+import axios from "axios";
 
 const MyNotes = () => {
+  const [notes, setnotes] = useState([]);
+
+  const fetchNotes = async () => {
+    const { data } = await axios.get("/api/notes");
+    setnotes(data);
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  console.log(notes);
+
   // Delete Note Handler
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -19,7 +32,7 @@ const MyNotes = () => {
       </Link>
 
       {notes.map((note) => (
-        <Accordion>
+        <Accordion key={note._id}>
           <Card>
             <Card.Header
               style={{
