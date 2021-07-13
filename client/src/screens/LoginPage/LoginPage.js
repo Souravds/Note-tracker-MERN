@@ -41,6 +41,8 @@ function LoginPage({ history }) {
     } catch (error) {
       seterror(error.response.data.message);
       setloading(false);
+      setemail("");
+      setpassword("");
     }
   };
   return (
@@ -55,7 +57,7 @@ function LoginPage({ history }) {
         {loading && <Loading />}
         <Form onSubmit={submitHandler} style={{ width: "60%" }}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Email address:</Form.Label>
             <Form.Control
               value={email}
               onChange={(e) => setemail(e.target.value)}
@@ -65,7 +67,7 @@ function LoginPage({ history }) {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Password:</Form.Label>
             <Form.Control
               value={password}
               onChange={(e) => setpassword(e.target.value)}
@@ -73,9 +75,7 @@ function LoginPage({ history }) {
               placeholder="Password"
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
+
           <Button variant="primary" type="submit">
             Submit
           </Button>

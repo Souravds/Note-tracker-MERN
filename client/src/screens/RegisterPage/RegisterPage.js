@@ -47,11 +47,43 @@ function RegisterPage() {
         console.log(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
         setloading(false);
+        setname("");
+        setemail("");
+        setpassword("");
+        setconfirmpassword("");
+        setpic(null);
       } catch (error) {
         seterror(error.response.data.message);
       }
     }
   };
+
+  const postDetails = (pics) => {
+    if (!pics) {
+      return setpicMessage("Please Select an Image");
+    }
+    setpicMessage(null);
+
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "notetrackermern");
+      data.append("cloud_name", "srvdip");
+      fetch("https://api.cloudinary.com/v1_1/srvdip/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setpic(data.url.toString());
+        })
+        .catch((err) => console.log(err));
+    } else {
+      return setpicMessage("Please select a Image");
+    }
+  };
+
   return (
     <MainScreen title="Register">
       <div
@@ -59,13 +91,12 @@ function RegisterPage() {
           display: "grid",
           placeItems: "center",
         }}
-        class="registerpage"
       >
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
         {loading && <Loading />}
         <Form style={{ width: "60%" }} onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Name:</Form.Label>
             <Form.Control
               value={name}
               onChange={(e) => setname(e.target.value)}
@@ -73,8 +104,9 @@ function RegisterPage() {
               placeholder="Enter Name"
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Email address:</Form.Label>
             <Form.Control
               value={email}
               onChange={(e) => setemail(e.target.value)}
@@ -84,7 +116,7 @@ function RegisterPage() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Password:</Form.Label>
             <Form.Control
               value={password}
               onChange={(e) => setpassword(e.target.value)}
@@ -92,8 +124,9 @@ function RegisterPage() {
               placeholder="Password"
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Confirm Password</Form.Label>
+            <Form.Label>Confirm Password:</Form.Label>
             <Form.Control
               value={confirmpassword}
               onChange={(e) => setconfirmpassword(e.target.value)}
@@ -102,9 +135,18 @@ function RegisterPage() {
             />
           </Form.Group>
 
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload Profile Picture</Form.Label>
-            <Form.Control type="file" />
+          {picMessage && (
+            <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+          )}
+          <Form.Group controlId="pic" className="mb-3">
+            <Form.Label>Upload Profile Picture:</Form.Label>
+            <Form.File
+              onChange={(e) => postDetails(e.target.files[0])}
+              id="custom-file"
+              type="image/png"
+              label="Upload profile picture"
+              custom
+            />
           </Form.Group>
 
           <Button variant="primary" type="submit">
