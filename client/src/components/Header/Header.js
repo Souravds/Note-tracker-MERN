@@ -33,9 +33,15 @@ const Header = () => {
               <Link to="/notes">My Notes</Link>
             </Nav.Link>
             <NavDropdown title="Sourav" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">My profile</NavDropdown.Item>
+              <NavDropdown.Item>My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">Logout</NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => {
+                  localStorage.removeItem("userInfo");
+                }}
+              >
+                Logout
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
