@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
-import MainScreen from "../../components/Header/MainScreen";
+import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import axios from "axios";
 

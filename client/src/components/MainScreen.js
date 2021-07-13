@@ -4,12 +4,12 @@ import { Container, Row } from "react-bootstrap";
 const MainScreen = ({ title, children }) => {
   return (
     <div>
-      <Container>
+      <Container style={{ marginTop: "20px" }}>
         <Row style={{ display: "block" }}>
           <div class="page">
             {title && (
               <>
-                <h1 class="heading">{title}</h1>
+                <h1 style={{ marginLeft: "20px" }}>{title}</h1>
                 <hr />
               </>
             )}
