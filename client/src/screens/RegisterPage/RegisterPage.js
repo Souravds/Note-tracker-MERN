@@ -54,68 +54,76 @@ function RegisterPage() {
   };
   return (
     <MainScreen title="Register">
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      {loading && <Loading />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            value={name}
-            onChange={(e) => setname(e.target.value)}
-            type="name"
-            placeholder="Enter Name"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={(e) => setemail(e.target.value)}
-            type="email"
-            placeholder="Enter email"
-          />
-        </Form.Group>
+      <div
+        style={{
+          display: "grid",
+          placeItems: "center",
+        }}
+        class="registerpage"
+      >
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {loading && <Loading />}
+        <Form style={{ width: "60%" }} onSubmit={submitHandler}>
+          <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              value={name}
+              onChange={(e) => setname(e.target.value)}
+              type="name"
+              placeholder="Enter Name"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+              type="email"
+              placeholder="Enter email"
+            />
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={(e) => setpassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            value={confirmpassword}
-            onChange={(e) => setconfirmpassword(e.target.value)}
-            type="password"
-            placeholder="Confirm Password"
-          />
-        </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              value={confirmpassword}
+              onChange={(e) => setconfirmpassword(e.target.value)}
+              type="password"
+              placeholder="Confirm Password"
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Upload Profile Picture</Form.Label>
-          <Form.Control type="file" />
-        </Form.Group>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Upload Profile Picture</Form.Label>
+            <Form.Control type="file" />
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
 
-      <Row className="py-3">
-        <Col>
-          Already have an account?{" "}
-          <Link
-            style={{ color: "blue", textDecoration: "underline" }}
-            to="/login"
-          >
-            Login Now
-          </Link>
-        </Col>
-      </Row>
+        <Row className="py-3">
+          <Col>
+            Already have an account?{" "}
+            <Link
+              style={{ color: "blue", textDecoration: "underline" }}
+              to="/login"
+            >
+              Login
+            </Link>
+          </Col>
+        </Row>
+      </div>
     </MainScreen>
   );
 }

@@ -19,7 +19,7 @@ const Header = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Form className="ml-auto d-flex">
+          <Form className="ml-auto d-flex py-3">
             <FormControl
               type="search"
               placeholder="Search"

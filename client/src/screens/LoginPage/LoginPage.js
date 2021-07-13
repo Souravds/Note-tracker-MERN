@@ -45,10 +45,15 @@ function LoginPage({ history }) {
   };
   return (
     <MainScreen title="Login">
-      <div style={{ margin: "20px" }}>
+      <div
+        style={{
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler} style={{ width: "60%" }}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
