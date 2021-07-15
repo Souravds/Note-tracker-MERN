@@ -1,8 +1,10 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { register } from "../../actions/userAction";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
@@ -17,44 +19,25 @@ function RegisterPage() {
   );
   const [message, setmessage] = useState(null);
   const [picMessage, setpicMessage] = useState(null);
-  const [error, seterror] = useState(false);
-  const [loading, setloading] = useState(false);
+  const history = useHistory();
+
+  //GRAB THE FUNCTIONALITY OF REDUX TO REGISTER
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/notes");
+    }
+  }, [history, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    //Check PASS AND CONFIRM PASS
     if (password !== confirmpassword) {
-      setmessage("Passweord doesn't match");
+      setmessage("Password did not match!!");
     } else {
-      setmessage(null);
-      try {
-        //SET CONFIG
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-
-        setloading(true);
-
-        //CALL THE API TO POST
-        const { data } = await axios.post(
-          "/api/users",
-          { name, pic, email, password },
-          config
-        );
-        console.log(data);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        setloading(false);
-        setname("");
-        setemail("");
-        setpassword("");
-        setconfirmpassword("");
-        setpic(null);
-      } catch (error) {
-        seterror(error.response.data.message);
-      }
+      dispatch(register(name, email, password, pic));
     }
   };
 
@@ -92,7 +75,7 @@ function RegisterPage() {
           placeItems: "center",
         }}
       >
-        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
         <Form style={{ width: "60%" }} onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="formBasicName">
