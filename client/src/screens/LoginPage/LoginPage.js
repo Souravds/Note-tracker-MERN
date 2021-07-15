@@ -1,49 +1,38 @@
-import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import MainScreen from "../../components/MainScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/userAction";
 
 function LoginPage({ history }) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [error, seterror] = useState(false);
-  const [loading, setloading] = useState(false);
 
-  //SUBMIT THE LOGUIN FORM
+  //import DISPATCH
+  const dispatch = useDispatch();
+
+  //ACCESS THE STATE
+  const userLogin = useSelector((state) => state.userLogin);
+
+  //DESTRUCTURING loading, error, userInfo from state
+  const { loading, error, userInfo } = userLogin;
+
+  //Route to "notes page" if user already login
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/notes");
+    }
+  }, [history, userInfo]);
+  //Whenever history and userInfo changes it only fires then
+
+  //SUBMIT THE LOGIN FORM
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      //SET CONFIG
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      setloading(true);
-
-      //CALL THE API TO POST
-      const { data } = await axios.post(
-        "/api/users/login",
-        {
-          email,
-          password,
-        },
-        config
-      );
-      console.log(data);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setloading(false);
-    } catch (error) {
-      seterror(error.response.data.message);
-      setloading(false);
-      setemail("");
-      setpassword("");
-    }
+    dispatch(login(email, password));
   };
   return (
     <MainScreen title="Login">
