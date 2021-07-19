@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { listNotes } from "../../actions/notesActions";
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const MyNotes = () => {
-  const [notes, setnotes] = useState([]);
+  //GRAB NOTES
+  const dispatch = useDispatch();
+  const noteList = useSelector((state) => state.noteList);
+  const { loading, notes, error } = noteList;
 
-  const fetchNotes = async () => {
-    const { data } = await axios.get("/api/notes");
-    setnotes(data);
-  };
+  //GRAB USERINFO
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const history = useHistory();
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    dispatch(listNotes());
+
+    if (!userInfo) {
+      history.push("/");
+    }
+  }, [dispatch]);
 
   console.log(notes);
 
@@ -24,14 +36,15 @@ const MyNotes = () => {
     }
   };
   return (
-    <MainScreen title="Welcome back Sourav das">
+    <MainScreen title="Welcome back Sourav...">
       <Link to="createNote">
         <Button size="lg" style={{ marginBottom: "10px" }}>
           Create New Note
         </Button>
       </Link>
-
-      {notes.map((note) => (
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {loading && <Loading />}
+      {notes?.map((note) => (
         <Accordion key={note._id}>
           <Card>
             <Card.Header
