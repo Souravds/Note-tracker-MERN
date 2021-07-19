@@ -75,10 +75,12 @@ const MyNotes = () => {
                 <Badge variant="success">{note.category}</Badge>
                 <blockquote className="blockquote mb-0">
                   <p> {note.content} </p>
-                  {/* <footer className="blockquote-footer">
-                    {note.category}{" "}
-                    <cite title="Source Title">Source Title</cite>
-                  </footer> */}
+                  <footer className="blockquote-footer">
+                    Created on{" "}
+                    <cite title="Source Title">
+                      {note.createdAt.substring(0, 10)}
+                    </cite>
+                  </footer>
                 </blockquote>
               </Card.Body>
             </Accordion.Collapse>
