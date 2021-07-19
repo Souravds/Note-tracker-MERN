@@ -36,7 +36,7 @@ const MyNotes = () => {
     }
   };
   return (
-    <MainScreen title="Welcome back Sourav...">
+    <MainScreen title={`Welcome back ${userInfo.name}...`}>
       <Link to="createNote">
         <Button size="lg" style={{ marginBottom: "10px" }}>
           Create New Note
