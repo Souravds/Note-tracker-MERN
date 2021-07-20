@@ -8,7 +8,7 @@ import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
-const MyNotes = () => {
+const MyNotes = ({ search }) => {
   //GRAB NOTES
   const dispatch = useDispatch();
   const noteList = useSelector((state) => state.noteList);
@@ -70,49 +70,54 @@ const MyNotes = () => {
 
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
-      {notes?.reverse().map((note) => (
-        <Accordion key={note._id}>
-          <Card>
-            <Card.Header
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                cursor: "pointer",
-              }}
-            >
-              <span style={{ flex: 1, fontSize: "18px", fontWeight: 700 }}>
-                <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
-                  {note.title}
-                </Accordion.Toggle>
-              </span>
-              <div>
-                <Button href={`/note/${note._id}`}>Edit</Button>
-                <Button
-                  variant="danger"
-                  className="mx-2"
-                  onClick={() => deleteHandler(note._id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <Badge variant="success">{note.category}</Badge>
-                <blockquote className="blockquote mb-0">
-                  <p> {note.content} </p>
-                  <footer className="blockquote-footer">
-                    Created on{" "}
-                    <cite title="Source Title">
-                      {note.createdAt.substring(0, 10)}
-                    </cite>
-                  </footer>
-                </blockquote>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      ))}
+      {notes
+        ?.reverse()
+        .filter((filterNote) =>
+          filterNote.title.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((note) => (
+          <Accordion key={note._id}>
+            <Card>
+              <Card.Header
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                }}
+              >
+                <span style={{ flex: 1, fontSize: "18px", fontWeight: 700 }}>
+                  <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
+                    {note.title}
+                  </Accordion.Toggle>
+                </span>
+                <div>
+                  <Button href={`/note/${note._id}`}>Edit</Button>
+                  <Button
+                    variant="danger"
+                    className="mx-2"
+                    onClick={() => deleteHandler(note._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <Badge variant="success">{note.category}</Badge>
+                  <blockquote className="blockquote mb-0">
+                    <p> {note.content} </p>
+                    <footer className="blockquote-footer">
+                      Created on{" "}
+                      <cite title="Source Title">
+                        {note.createdAt.substring(0, 10)}
+                      </cite>
+                    </footer>
+                  </blockquote>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        ))}
     </MainScreen>
   );
 };

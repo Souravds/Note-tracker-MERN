@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { logout } from "../../actions/userAction";
 
-const Header = () => {
+const Header = ({ setsearch }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -36,6 +36,7 @@ const Header = () => {
               placeholder="Search"
               className="mr-2"
               aria-label="Search"
+              onChange={(e) => setsearch(e.target.value)}
             />
             <Button variant="outline-success">Search</Button>
           </Form>
