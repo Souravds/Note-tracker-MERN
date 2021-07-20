@@ -1,17 +1,20 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
 export const LandingPage = () => {
-  //GET THE USERINFO FROM LOCAL STORAGE
-  // useEffect(() => {
-  //   const userInfo = localStorage.getItem("userInfo");
+  //GRAB USERINFO STATE
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-  //   //IF USER FOUND GO TO MYNOTES
-  //   if (userInfo) {
-  //     history.push("/notes");
-  //   }
-  // }, [history]);
+  const history = useHistory();
+  useEffect(() => {
+    //IF USER FOUND GO TO MYNOTES
+    if (userInfo) {
+      history.push("/notes");
+    }
+  }, [history]);
 
   return (
     <div

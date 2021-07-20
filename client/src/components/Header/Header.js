@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Container,
@@ -22,6 +22,8 @@ const Header = ({ setsearch }) => {
     dispatch(logout());
     history.push("/");
   };
+
+  useEffect(() => {}, [userInfo]);
   return (
     <Navbar bg="light" expand="lg" varient="dark">
       <Container>
@@ -30,27 +32,33 @@ const Header = ({ setsearch }) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Form className="ml-auto d-flex py-3">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="mr-2"
-              aria-label="Search"
-              onChange={(e) => setsearch(e.target.value)}
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          {userInfo && (
+            <Form className="ml-auto d-flex py-3">
+              <FormControl
+                type="search"
+                placeholder="Search"
+                className="mr-2"
+                aria-label="Search"
+                onChange={(e) => setsearch(e.target.value)}
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+          )}
           <Nav className="ml-auto" style={{ maxHeight: "100px" }} navbarScroll>
-            <Nav.Link>
-              <Link to="/notes">My Notes</Link>
-            </Nav.Link>
-            <NavDropdown title="Sourav" id="navbarScrollingDropdown">
-              <NavDropdown.Item>My profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logoutHandler}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
+            {userInfo && (
+              <>
+                <Nav.Link>
+                  <Link to="/notes">My Notes</Link>
+                </Nav.Link>
+                <NavDropdown title={userInfo.name} id="navbarScrollingDropdown">
+                  <NavDropdown.Item>My profile</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

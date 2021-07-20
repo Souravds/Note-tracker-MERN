@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+import ReactMarkdown from "react-markdown";
 
 const MyNotes = ({ search }) => {
   //GRAB NOTES
@@ -14,7 +15,7 @@ const MyNotes = ({ search }) => {
   const noteList = useSelector((state) => state.noteList);
   const { loading, notes, error } = noteList;
 
-  //GRAB USERINFO
+  //GRAB USERINFO STATE
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -105,7 +106,7 @@ const MyNotes = ({ search }) => {
                 <Card.Body>
                   <Badge variant="success">{note.category}</Badge>
                   <blockquote className="blockquote mb-0">
-                    <p> {note.content} </p>
+                    <ReactMarkdown>{note.content}</ReactMarkdown>
                     <footer className="blockquote-footer">
                       Created on{" "}
                       <cite title="Source Title">
