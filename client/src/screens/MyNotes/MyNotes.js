@@ -4,7 +4,7 @@ import MainScreen from "../../components/MainScreen";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { listNotes } from "../../actions/notesActions";
+import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
@@ -21,6 +21,18 @@ const MyNotes = () => {
   const noteCreate = useSelector((state) => state.noteCreate);
   const { success: successCreate } = noteCreate;
 
+  //NOTE UPDATE AFTER EDIT IN MYNOTES
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { success: successUpdate } = noteUpdate;
+
+  //GRAB THE NOTE DELETE STATE
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = noteDelete;
+
   const history = useHistory();
 
   useEffect(() => {
@@ -29,13 +41,19 @@ const MyNotes = () => {
     if (!userInfo) {
       history.push("/");
     }
-  }, [dispatch, successCreate, history, userInfo]);
-
-  console.log(notes);
+  }, [
+    dispatch,
+    successCreate,
+    successDelete,
+    successUpdate,
+    history,
+    userInfo,
+  ]);
 
   // Delete Note Handler
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
+      dispatch(deleteNoteAction(id));
     }
   };
   return (
@@ -45,6 +63,11 @@ const MyNotes = () => {
           Create New Note
         </Button>
       </Link>
+      {errorDelete && (
+        <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+      )}
+      {loadingDelete && <Loading />}
+
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
       {notes?.reverse().map((note) => (
