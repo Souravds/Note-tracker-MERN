@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -75,6 +75,7 @@ function RegisterPage() {
           placeItems: "center",
         }}
       >
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
         <Form style={{ width: "60%" }} onSubmit={submitHandler}>

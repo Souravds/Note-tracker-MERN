@@ -11,6 +11,7 @@ export const LandingPage = () => {
   const history = useHistory();
   useEffect(() => {
     //IF USER FOUND GO TO MYNOTES
+    // const userInfo = localStorage.getItem("userInfo")
     if (userInfo) {
       history.push("/notes");
     }

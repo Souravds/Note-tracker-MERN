@@ -50,8 +50,13 @@ const Header = ({ setsearch }) => {
                 <Nav.Link>
                   <Link to="/notes">My Notes</Link>
                 </Nav.Link>
-                <NavDropdown title={userInfo.name} id="navbarScrollingDropdown">
-                  <NavDropdown.Item>My profile</NavDropdown.Item>
+                <NavDropdown
+                  title={userInfo?.name}
+                  id="navbarScrollingDropdown"
+                >
+                  <NavDropdown.Item href="/profile">
+                    My profile
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
